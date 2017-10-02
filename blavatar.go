@@ -12,13 +12,13 @@ import (
 // New returns blavatar image from string
 func New(str string, size int) *image.NRGBA {
 	hash := sha512.Sum384([]byte(str))
-	pixels := byteToColor(hash)
-	image := pixelsToSquare(pixels)
+	pixels := bytesToPixels(hash)
+	image := pixelsToImage(pixels)
 	image = blurImage(image, size)
 	return image
 }
 
-func byteToColor(bin [48]byte) (pixels []color.NRGBA) {
+func bytesToPixels(bin [48]byte) (pixels []color.NRGBA) {
 	for p := 0; p < 16; p++ {
 		rgb := bin[p*3 : p*3+3]
 		pixel := color.NRGBA{rgb[0], rgb[1], rgb[2], 255}
@@ -27,7 +27,7 @@ func byteToColor(bin [48]byte) (pixels []color.NRGBA) {
 	return pixels
 }
 
-func pixelsToSquare(pixels []color.NRGBA) *image.NRGBA {
+func pixelsToImage(pixels []color.NRGBA) *image.NRGBA {
 	size := int(math.Sqrt(float64(len(pixels))))
 	img := image.NewNRGBA(image.Rect(0, 0, size, size))
 	for i, p := range pixels {
