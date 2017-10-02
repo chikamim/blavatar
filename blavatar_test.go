@@ -11,8 +11,9 @@ import (
 )
 
 func ExampleNew() {
-	file := "blavatar.jpg"
 	img := blavatar.New("blavatar", 64)
+
+	file := "blavatar.jpg"
 	f, _ := os.Create(file)
 	defer f.Close()
 	jpeg.Encode(f, img, &jpeg.Options{70})
